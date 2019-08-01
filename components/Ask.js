@@ -70,7 +70,7 @@ export const Ask = ({ pin, isLeader, isMobile }) => {
           >
             Aa
           </div>
-          <InputButton onClick={handleQuestion}>Quiz</InputButton>
+          <InputButton onClick={handleQuestion}>Ask</InputButton>
         </InputGroup>
       </CenteredRow>
     )
