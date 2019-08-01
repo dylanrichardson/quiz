@@ -68,7 +68,14 @@ function wrapLabel(words, width) {
   }
 }
 
-export const Results = ({ answers, showResults, width, height }) => {
+export const Results = ({
+  answers,
+  answer,
+  name,
+  showResults,
+  width,
+  height
+}) => {
   const [labelLines, setLabelLines] = useState(1);
 
   const values = _.sortBy(
@@ -131,29 +138,41 @@ export const Results = ({ answers, showResults, width, height }) => {
     document.getElementsByTagName('body')[0]
   ).color;
 
+  const correctLabel = _.findIndex(values, ['x', answer]);
+
   return (
     showChart && (
-      <CenteredRow id="results">
-        <Voters answers={answers} values={_.map(values, 'x')} />
-        <BarChart
-          data={{ values }}
-          width={chartWidth}
-          height={chartHeight}
-          margin={{
-            top: verticalMargin,
-            bottom: verticalMargin * 5,
-            left: horizontalMargin,
-            right: horizontalMargin
-          }}
-          yAxis={{ tickArguments: [numTicks] }}
-          sort={d3.ascending}
-        />
-        <style>
-          {labelSizesCSS}
-          {`
+      <>
+        <CenteredRow>
+          {answers[name] === answer
+            ? 'Your answer is correct!'
+            : `That's wrong. The correct answer is ${answer}.`}
+        </CenteredRow>
+        <CenteredRow id="results">
+          <Voters answers={answers} values={_.map(values, 'x')} />
+          <BarChart
+            data={{ values }}
+            width={chartWidth}
+            height={chartHeight}
+            margin={{
+              top: verticalMargin,
+              bottom: verticalMargin * 5,
+              left: horizontalMargin,
+              right: horizontalMargin
+            }}
+            yAxis={{ tickArguments: [numTicks] }}
+            sort={d3.ascending}
+          />
+          <style>
+            {labelSizesCSS}
+            {`
           .bar {
             fill: var(--primary);
             mask: url(#mask-stripe);
+          }
+
+          .bar:nth-of-type(${correctLabel + 1}) {
+            fill: var(--green)
           }
 
           text {
@@ -165,8 +184,9 @@ export const Results = ({ answers, showResults, width, height }) => {
             font-weight: 300;
           }
           `}
-        </style>
-      </CenteredRow>
+          </style>
+        </CenteredRow>
+      </>
     )
   );
 };

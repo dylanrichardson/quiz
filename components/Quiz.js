@@ -30,6 +30,7 @@ export const Quiz = ({
   leader,
   name,
   answers,
+  answer,
   question,
   showResults,
   width,
@@ -74,6 +75,8 @@ export const Quiz = ({
             />
             <Results
               answers={answers}
+              answer={answer}
+              name={name}
               showResults={showResults}
               width={width}
               height={height}

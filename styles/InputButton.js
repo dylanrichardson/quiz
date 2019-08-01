@@ -18,7 +18,7 @@ export const InputButton = ({ children, onClick, style = {} }) => {
         {children}
         <style>
           {`button.btn:hover {
-          background: var(--red)
+          background: var(--green)
         }`}
         </style>
       </Button>

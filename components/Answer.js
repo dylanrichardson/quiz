@@ -16,7 +16,7 @@ export const Answer = ({
   isMobile
 }) => {
   useEffect(() => {
-    if (question && !isMobile) {
+    if (!isLeader && question && !isMobile) {
       answerRef.current.focus();
     }
   });
@@ -37,48 +37,51 @@ export const Answer = ({
 
   const width = isMobile ? '80%' : '50%';
 
-  return question ? (
-    <>
-      <CenteredRow>
-        <InputGroup style={{ width, maxWidth: '480px' }}>
-          <FormControl
-            placeholder="Your answer"
-            aria-label="Your Answer"
-            ref={answerRef}
-            onKeyDown={handleKey}
-            style={{
-              paddingBottom: '2px'
-            }}
-          />
-          <InputButton onClick={handleAnswer}>Vote</InputButton>
-        </InputGroup>
-      </CenteredRow>
-      {ownAnswer && (
-        <CenteredRow
-          style={{
-            wordBreak: 'break-word',
-            paddingLeft: '20%',
-            paddingRight: '20%'
-          }}
-        >
-          Your vote: {ownAnswer}
+  return (
+    !isLeader &&
+    (question ? (
+      <>
+        <CenteredRow>
+          <InputGroup style={{ width, maxWidth: '480px' }}>
+            <FormControl
+              placeholder="Your answer"
+              aria-label="Your Answer"
+              ref={answerRef}
+              onKeyDown={handleKey}
+              style={{
+                paddingBottom: '2px'
+              }}
+            />
+            <InputButton onClick={handleAnswer}>Answer</InputButton>
+          </InputGroup>
         </CenteredRow>
-      )}
-    </>
-  ) : (
-    !isLeader && (
-      <CenteredRow>
-        <span
-          style={{
-            marginTop: 'auto',
-            marginBottom: 'auto',
-            textAlgin: 'center'
-          }}
-        >
-          Waiting for question
-        </span>
-        <Spinner animation="grow" variant="primary" />
-      </CenteredRow>
-    )
+        {ownAnswer && (
+          <CenteredRow
+            style={{
+              wordBreak: 'break-word',
+              paddingLeft: '20%',
+              paddingRight: '20%'
+            }}
+          >
+            Your answer: {ownAnswer}
+          </CenteredRow>
+        )}
+      </>
+    ) : (
+      !isLeader && (
+        <CenteredRow>
+          <span
+            style={{
+              marginTop: 'auto',
+              marginBottom: 'auto',
+              textAlgin: 'center'
+            }}
+          >
+            Waiting for question
+          </span>
+          <Spinner animation="grow" variant="primary" />
+        </CenteredRow>
+      )
+    ))
   );
 };

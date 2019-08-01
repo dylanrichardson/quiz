@@ -22,6 +22,12 @@ const addEmptyQuestion = async context => {
   return context;
 };
 
+const addEmptyAnswer = async context => {
+  Object.assign(context.data, { answer: null });
+
+  return context;
+};
+
 const addEmptyAnswers = async context => {
   Object.assign(context.data, { answers: {} });
 
@@ -158,7 +164,7 @@ const leaveQuiz = async context => {
 
 const addQuestion = async context => {
   const {
-    data: { question },
+    data: { question, answer },
     params: {
       connection: { name }
     },
@@ -176,7 +182,11 @@ const addQuestion = async context => {
     throw new BadRequest('Ask operation requires a question.');
   }
 
-  context.data = { question, answers: {} };
+  if (!answer || answer === '') {
+    throw new BadRequest('Ask operation requires a answer.');
+  }
+
+  context.data = { question, answer, answers: {} };
 
   return context;
 };
@@ -290,6 +300,7 @@ module.exports = {
       addId,
       addEmptyMembers,
       addEmptyQuestion,
+      addEmptyAnswer,
       addEmptyAnswers,
       addCaseSensitive
     ],

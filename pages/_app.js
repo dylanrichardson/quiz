@@ -83,12 +83,19 @@ const QuizUI = class extends App {
           <title>Quizjob</title>
         </Head>
         {showTitle && (
-          <Row style={{ position: 'absolute', top: '15px', left: '35px' }}>
+          <Row
+            style={{
+              position: 'absolute',
+              top: '15px',
+              left: '35px',
+              zIndex: '1'
+            }}
+          >
             <Col>
               <Link href="/">
                 <a style={{ textDecoration: 'none' }}>
                   <h1 className="display-4">
-                    <span style={{ color: 'var(--red)' }}>Quiz</span>
+                    <span style={{ color: 'var(--green)' }}>Quiz</span>
                     <span style={{ fontWeight: 600 }}>job</span>
                   </h1>
                 </a>

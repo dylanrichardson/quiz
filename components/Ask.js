@@ -9,6 +9,7 @@ export const Ask = ({ pin, isLeader, isMobile }) => {
   const [caseSensitive, setCaseSensitive] = useState(false);
 
   const questionRef = useRef(null);
+  const answerRef = useRef(null);
 
   useEffect(() => {
     if (isLeader && !isMobile) {
@@ -18,10 +19,11 @@ export const Ask = ({ pin, isLeader, isMobile }) => {
 
   const handleQuestion = async () => {
     const { value: question } = questionRef.current;
+    const { value: answer } = answerRef.current;
 
-    if (question !== '') {
+    if (question !== '' && answer !== '') {
       await Promise.all([
-        quiz.patch(pin, { operation: 'ask', question }),
+        quiz.patch(pin, { operation: 'ask', question, answer }),
         quiz.patch(pin, {
           operation: 'toggleCaseSensitive',
           caseSensitive
@@ -41,37 +43,54 @@ export const Ask = ({ pin, isLeader, isMobile }) => {
   return (
     isLeader && (
       <CenteredRow>
-        <InputGroup style={{ width, maxWidth: '480px' }}>
-          <FormControl
-            placeholder="Question"
-            aria-label="Quiz Question"
-            ref={questionRef}
-            onKeyDown={handleKey}
-            style={{
-              paddingBottom: '2px'
-            }}
-          />
-          <div
-            onClick={() => setCaseSensitive(!caseSensitive)}
-            style={{
-              position: 'absolute',
-              right: '60px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              zIndex: 3,
-              color: `var(--${caseSensitive ? 'red' : 'gray'})`,
-              paddingTop: '4px',
-              paddingLeft: '3px',
-              paddingRight: '3px',
-              lineHeight: '18px',
-              cursor: 'pointer',
-              border: `1px solid var(--${caseSensitive ? 'red' : 'white'})`
-            }}
-          >
-            Aa
-          </div>
-          <InputButton onClick={handleQuestion}>Ask</InputButton>
-        </InputGroup>
+        <CenteredRow style={{ marginBottom: '5px' }}>
+          <InputGroup style={{ width, maxWidth: '480px' }}>
+            <FormControl
+              placeholder="Question"
+              aria-label="Quiz Question"
+              ref={questionRef}
+              onKeyDown={handleKey}
+              style={{
+                paddingBottom: '2px'
+              }}
+            />
+          </InputGroup>
+        </CenteredRow>
+        <CenteredRow>
+          <InputGroup style={{ width, maxWidth: '480px' }}>
+            <FormControl
+              placeholder="Answer"
+              aria-label="Quiz Answer"
+              ref={answerRef}
+              onKeyDown={handleKey}
+              style={{
+                paddingBottom: '2px'
+              }}
+            />
+            <div
+              onClick={() => setCaseSensitive(!caseSensitive)}
+              style={{
+                position: 'absolute',
+                right: '60px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 3,
+                color: `var(--${caseSensitive ? 'red' : 'gray'})`,
+                paddingTop: '4px',
+                paddingLeft: '3px',
+                paddingRight: '3px',
+                lineHeight: '18px',
+                cursor: 'pointer',
+                border: `1px solid ${
+                  caseSensitive ? 'var(--green)' : 'rgba(0,0,0,0)'
+                }`
+              }}
+            >
+              Aa
+            </div>
+            <InputButton onClick={handleQuestion}>Ask</InputButton>
+          </InputGroup>
+        </CenteredRow>
       </CenteredRow>
     )
   );
