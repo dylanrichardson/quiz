@@ -4,6 +4,9 @@ import Router from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
 import { Row, Col } from 'react-bootstrap';
+import { Provider } from 'react-redux';
+import withRedux from 'next-redux-wrapper';
+import makeStore from '../reducers/store';
 import { LoadingApp, LoadingPage } from '../components';
 
 const TITLE_MIN_WIDTH = 830;
@@ -74,7 +77,7 @@ const QuizUI = class extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, store } = this.props;
     const { loadingPage, loadingApp, showTitle } = this.state;
 
     return (
@@ -82,37 +85,39 @@ const QuizUI = class extends App {
         <Head>
           <title>Quizjob</title>
         </Head>
-        {showTitle && (
-          <Row
-            style={{
-              position: 'absolute',
-              top: '15px',
-              left: '35px',
-              zIndex: '1'
-            }}
-          >
-            <Col>
-              <Link href="/">
-                <a style={{ textDecoration: 'none' }}>
-                  <h1 className="display-4">
-                    <span style={{ color: 'var(--green)' }}>Quiz</span>
-                    <span style={{ fontWeight: 600 }}>job</span>
-                  </h1>
-                </a>
-              </Link>
-            </Col>
-          </Row>
-        )}
-        {loadingApp ? (
-          <LoadingApp />
-        ) : loadingPage ? (
-          <LoadingPage />
-        ) : (
-          <Component {...pageProps} {...this.state} />
-        )}
+        <Provider store={store}>
+          {showTitle && (
+            <Row
+              style={{
+                position: 'absolute',
+                top: '15px',
+                left: '35px',
+                zIndex: '1'
+              }}
+            >
+              <Col>
+                <Link href="/">
+                  <a style={{ textDecoration: 'none' }}>
+                    <h1 className="display-4">
+                      <span style={{ color: 'var(--green)' }}>Quiz</span>
+                      <span style={{ fontWeight: 600 }}>job</span>
+                    </h1>
+                  </a>
+                </Link>
+              </Col>
+            </Row>
+          )}
+          {loadingApp ? (
+            <LoadingApp />
+          ) : loadingPage ? (
+            <LoadingPage />
+          ) : (
+            <Component {...pageProps} {...this.state} />
+          )}
+        </Provider>
       </Container>
     );
   }
 };
 
-export default QuizUI;
+export default withRedux(makeStore)(QuizUI);

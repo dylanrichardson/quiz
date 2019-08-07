@@ -75,7 +75,7 @@ export const Ask = ({ pin, isLeader, isMobile }) => {
                 top: '50%',
                 transform: 'translateY(-50%)',
                 zIndex: 3,
-                color: `var(--${caseSensitive ? 'red' : 'gray'})`,
+                color: `var(--${caseSensitive ? 'green' : 'gray'})`,
                 paddingTop: '4px',
                 paddingLeft: '3px',
                 paddingRight: '3px',

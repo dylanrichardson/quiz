@@ -1,27 +1,34 @@
-import React from 'react';
-import Router from 'next/router';
-import { Button } from 'react-bootstrap';
-import client from '../utils/feathers';
+import React, { useState } from 'react';
+import { Button, Alert } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { CenteredRow, PageContainer } from '../styles';
 import { JoinQuiz } from '../components';
+import { createQuiz } from '../actions';
 
-const quiz = client.service('quiz');
+const HomePage = ({ createQuiz, isCreating, error }) => {
+  const [showError, setShowError] = useState(!!error);
 
-const createQuiz = async () => {
-  const { id } = await quiz.create({});
-  Router.push(`/${id}`);
-};
-
-export default () => {
   return (
     <PageContainer>
       <CenteredRow>
         <Button
           style={{ width: '35%', minWidth: '100px', maxWidth: '188px' }}
           onClick={createQuiz}
+          disabled={isCreating}
         >
-          Create Quiz
+          {isCreating ? 'Loading...' : 'Create Quiz'}
         </Button>
+        {showError && (
+          <CenteredRow className="mt-3">
+            <Alert
+              variant="danger"
+              onClose={() => setShowError(false)}
+              dismissible
+            >
+              {error}
+            </Alert>
+          </CenteredRow>
+        )}
       </CenteredRow>
       <CenteredRow>
         <JoinQuiz />
@@ -29,3 +36,15 @@ export default () => {
     </PageContainer>
   );
 };
+
+const mapStateToProps = ({ quiz: { isCreating, error } }) => {
+  return {
+    isCreating,
+    error
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { createQuiz }
+)(HomePage);
