@@ -1,6 +1,6 @@
 import React from 'react';
-import client from '../utils/feathers';
-import { CenteredRow } from '../styles';
+import { client } from '@utils';
+import { CenteredRow } from '@styles';
 
 const quiz = client.service('quiz');
 

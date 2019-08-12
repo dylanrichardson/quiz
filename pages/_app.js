@@ -6,8 +6,8 @@ import Head from 'next/head';
 import { Row, Col } from 'react-bootstrap';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
-import makeStore from '../reducers/store';
-import { LoadingApp, LoadingPage } from '../components';
+import makeStore from '@actions/store';
+import { LoadingApp, LoadingPage } from '@components/common';
 
 const TITLE_MIN_WIDTH = 830;
 const TITLE_MIN_HEIGHT = 440;

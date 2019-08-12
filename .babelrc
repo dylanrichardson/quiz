@@ -9,6 +9,20 @@
         "preprocess": false
       }
     ],
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "@actions": "./actions",
+          "@components": "./components",
+          "@pages": "./pages",
+          "@reducers": "./reducers",
+          "@styles": "./styles",
+          "@utils": "./utils"
+        }
+      }
+    ],
     ["transform-inline-environment-variables"]
   ]
 }

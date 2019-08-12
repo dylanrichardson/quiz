@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { InputGroup, FormControl } from 'react-bootstrap';
-import client from '../utils/feathers';
-import { CenteredRow, InputButton } from '../styles';
+import { client } from '@utils';
+import { CenteredRow, InputButton } from '@styles';
 
 const quiz = client.service('quiz');
 

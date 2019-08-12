@@ -5,9 +5,7 @@ import feathers from '@feathersjs/client';
 const socket = io(process.env.API_URL);
 
 // Initialize our Feathers client application
-const client = feathers();
+export const client = feathers();
 
 // Conncet the Feathers client with Socket.io
 client.configure(feathers.socketio(socket));
-
-export default client;

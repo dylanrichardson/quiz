@@ -1,5 +1,5 @@
 import React from 'react';
-import { CenteredRow } from '../styles';
+import { CenteredRow } from '@styles';
 
 export const Question = ({ question }) => {
   return (

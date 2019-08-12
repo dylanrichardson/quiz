@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Router from 'next/router';
-import client from '../utils/feathers';
-import { NameInput, Quiz, LoadingPage } from '../components';
+import { connect } from 'react-redux';
+import { client } from '@utils';
+import { NameInput, Quiz } from '@components/quiz';
+import { LoadingPage } from '@components/common';
+import { getQuiz } from '@actions';
 
 const quiz = client.service('quiz');
 
 const QuizPage = props => {
-  const { pin } = props;
+  const { pin, getQuiz, isGetting, data, error } = props;
 
   const [state, setState] = useState({
     name: null,
@@ -22,13 +25,8 @@ const QuizPage = props => {
     return setState(oldState => ({ ...oldState, ...newState }));
   };
 
-  const validatePin = async () => {
-    try {
-      await quiz.get(pin);
-      setLoading(false);
-    } catch (e) {
-      Router.push('/');
-    }
+  const validatePin = () => {
+    getQuiz(pin);
   };
 
   useEffect(() => {
@@ -37,7 +35,17 @@ const QuizPage = props => {
     quiz.on('patched', mergeState);
 
     return () => quiz.removeListener('patched');
-  });
+  }, []);
+
+  useEffect(() => {
+    setLoading(isGetting);
+  }, [isGetting]);
+
+  useEffect(() => {
+    if (error) {
+      Router.push('/');
+    }
+  }, [error]);
 
   const handleJoin = ({ name, leader }) => {
     mergeState({ name, leader });
@@ -56,4 +64,7 @@ QuizPage.getInitialProps = ({ query: { pin } }) => {
   return { pin };
 };
 
-export default QuizPage;
+export default connect(
+  ({ getQuiz }) => ({ ...getQuiz }),
+  { getQuiz }
+)(QuizPage);

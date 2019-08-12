@@ -1,8 +1,12 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
 import styled from 'styled-components';
-import { Ask, ToggleResults, Answer, Question, Results, Info } from '.';
-import { PageContainer, CenteredContainer, CenteredRow } from '../styles';
+import { Results } from './results';
+import { Info } from './info';
+import { Ask, ToggleResults } from './leader';
+import { Answer } from './member';
+import { Question } from './common';
+import { PageContainer, CenteredContainer, CenteredRow } from '@styles';
 
 const SMALL = 466;
 const MEDIUM = 768;

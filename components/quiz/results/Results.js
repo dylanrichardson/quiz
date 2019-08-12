@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BarChart } from 'react-d3-components';
 import _ from 'lodash';
 import * as d3 from 'd3';
-import { CenteredRow } from '../styles';
+import { CenteredRow } from '@styles';
 import { Voters } from './';
 
 const WIDTH_RATIO = 0.6;
@@ -143,11 +143,13 @@ export const Results = ({
   return (
     showChart && (
       <>
-        <CenteredRow>
-          {answers[name] === answer
-            ? 'Your answer is correct!'
-            : `That's wrong. The correct answer is ${answer}.`}
-        </CenteredRow>
+        {answers[name] && (
+          <CenteredRow>
+            {answers[name] === answer
+              ? 'Your answer is correct!'
+              : `That's wrong. The correct answer is ${answer}.`}
+          </CenteredRow>
+        )}
         <CenteredRow id="results">
           <Voters answers={answers} values={_.map(values, 'x')} />
           <BarChart

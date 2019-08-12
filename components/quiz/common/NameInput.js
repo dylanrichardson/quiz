@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Router from 'next/router';
 import { InputGroup, FormControl, Alert } from 'react-bootstrap';
-import client from '../utils/feathers';
-import { CenteredRow, PageContainer, InputButton } from '../styles';
+import { client } from '@utils';
+import { CenteredRow, PageContainer, InputButton } from '@styles';
 
 const quiz = client.service('quiz');
 
